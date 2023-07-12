@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for mold.
 GH_REPO="https://github.com/rui314/mold"
 TOOL_NAME="mold"
 TOOL_TEST="mold --version"
@@ -41,8 +40,18 @@ download_release() {
 	version="$1"
 	filename="$2"
 
+	local platform kernel arch
+	kernel="$(uname -s)"
+	arch="$(uname -m)"
+
+	case "$kernel" in
+	Linux)
+		platform="${arch}-linux"
+		;;
+	esac
+
 	# TODO: Adapt the release URL convention for mold
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-${version}-${platform}.tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
