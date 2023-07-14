@@ -30,8 +30,6 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if mold has other means of determining installable versions.
 	list_github_tags
 }
 
@@ -50,7 +48,6 @@ download_release() {
 		;;
 	esac
 
-	# TODO: Adapt the release URL convention for mold
 	url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-${version}-${platform}.tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
